@@ -66,6 +66,10 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 TARGET_BOOTLOADER_BOARD_NAME := kona
 TARGET_NO_BOOTLOADER := true
 
+# Broken flags
+BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+BUILD_BROKEN_ENFORCE_SYSPROP_OWNER := true
+
 # Verified boot
 BOARD_AVB_ENABLE := true
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --set_hashtree_disabled_flag
@@ -128,7 +132,7 @@ DEVICE_MATRIX_FILE := $(DEVICE_PATH)/vintf/compatibility_matrix.device.xml
 BOARD_BOOT_HEADER_VERSION := 3
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=a600000.dwc3 swiotlb=2048 loop.max_part=7 cgroup.memory=nokmem,nosocket reboot=panic_warm androidboot.init_fatal_reboot_target=recovery
-# BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_RAMDISK_OFFSET := 0x02000000
@@ -139,6 +143,7 @@ TARGET_COMPILE_WITH_MSM_KERNEL := true
 TARGET_KERNEL_CONFIG := vendor/omni_alioth_defconfig
 TARGET_KERNEL_SOURCE := kernel/xiaomi/alioth
 TARGET_KERNEL_CLANG_COMPILE := true
+TARGET_KERNEL_ADDITIONAL_FLAGS := DTC_EXT=$(shell pwd)/prebuilts/misc/linux-x86/dtc/dtc
 
 #DTB/DTBO
 BOARD_KERNEL_SEPARATED_DTBO := true
@@ -165,6 +170,7 @@ BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_SYSTEM_EXTIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_ODMIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
 
 BOARD_BOOTIMAGE_PARTITION_SIZE := 134217728
@@ -194,19 +200,6 @@ BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 6532390912 #6800076800
 BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
 BOARD_SUPER_PARTITION_SIZE := 6536585216 # 6804271104
 
-# BOARD_ROOT_EXTRA_FOLDERS += ADF APD asdf batinfo
-
-# Platform
-TARGET_BOARD_PLATFORM := kona
-TARGET_BOARD_PLATFORM_GPU := qcom-adreno650
-
-# Properties
-TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
-
-# Releasetools
-TARGET_RELEASETOOLS_EXTENSIONS := $(COMMON_PATH)
-
-# Recovery
 BOARD_INCLUDE_RECOVERY_DTBO := true
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
@@ -221,12 +214,27 @@ BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 1
 
 # Sepolicy
 include vendor/omni/sepolicy/sepolicy.mk
-include device/qcom/sepolicy/SEPolicy.mk
-BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(DEVICE_PATH)/sepolicy/private
+include device/qcom/sepolicy_custom/SEPolicy.mk
+SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private \
 PRODUCT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/product/private
 
 # Treble
 BOARD_VNDK_VERSION := current
 
+SELINUX_IGNORE_NEVERALLOWS := true
+
 OMNI_PRODUCT_PROPERTIES += \
+# BOARD_ROOT_EXTRA_FOLDERS += ADF APD asdf batinfo
+
+# Platform
+TARGET_BOARD_PLATFORM := kona
+TARGET_BOARD_PLATFORM_GPU := qcom-adreno650
+
+# Properties
+TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
+
+# Releasetools
+TARGET_RELEASETOOLS_EXTENSIONS := $(COMMON_PATH)
+
+# Recovery
     ro.sf.lcd_density=450
