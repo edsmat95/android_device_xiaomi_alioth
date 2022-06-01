@@ -1,26 +1,38 @@
 [
-  {
-    "remote": "omnirom",
-    "repository": "android_device_qcom_caf-sepolicy",
-    "target_path": "device/qcom/sepolicy",
+   {
+    "remote": "github",
+    "repository": "micky387/android_device_qcom_caf-sepolicy",
+    "target_path": "device/qcom/sepolicy_custom",
     "revision": "android-11"
-  },
-  {
-    "remote": "omnirom",
-    "repository": "android_vendor_qcom_opensource_packages_apps_Bluetooth",
-    "target_path": "vendor/qcom/opensource/commonsys/packages/apps/Bluetooth",
-    "revision": "android-11"
-  },
-  {
-    "remote": "omnirom",
-    "repository": "android_vendor_qcom_opensource_bluetooth-commonsys-intf",
-    "target_path": "vendor/qcom/opensource/commonsys-intf/bluetooth",
-    "revision": "android-11"
-  },
-  {
-    "remote": "omnirom",
-    "repository": "android_packages_apps_SnapdragonCamera2",
-    "target_path": "packages/apps/SnapdragonCamera2",
-    "revision": "android-11"
-  }
+   },
+   {
+       "remote": "omnirom",
+     "repository": "android_vendor_codeaurora_telephony",
+     "target_path": "vendor/codeaurora/telephony",
+     "revision": "android-12.0"
+   },
+   {
+     "remote": "omnirom",
+     "repository": "android_vendor_qcom_opensource_interfaces",
+     "target_path": "vendor/qcom/opensource/interfaces",
+     "revision": "android-12.0"
+   },
+   {
+     "remote": "gitlab",
+     "repository": "android_vendor_qcom_opensource_display-commonsys",
+     "target_path": "vendor/qcom/opensource/commonsys/display",
+     "revision": "android-12.1"
+   },
+   {
+     "remote": "gitlab",
+     "repository": "android_vendor_qcom_opensource_display-commonsys-intf",
+     "target_path": "vendor/qcom/opensource/commonsys-intf/display",
+     "revision": "android-12.0"
+   },
+   {
+     "remote": "omnirom",
+     "repository": "android_vendor_qcom_opensource_interfaces",
+     "target_path": "vendor/qcom/opensource/interfaces",
+     "revision": "android-12.0"
+   }
 ]

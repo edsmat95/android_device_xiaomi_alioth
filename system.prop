@@ -42,9 +42,6 @@ media.settings.xml=/vendor/etc/media_profiles_vendor.xml
 vendor.mm.enable.qcom_parser=16777207
 persist.mm.enable.prefetch=true
 
-#Netflix custom property
-ro.netflix.bsp_rev=Q845-05000-1
-
 #
 # system props for the data modules
 #
@@ -72,7 +69,7 @@ telephony.lteOnCdmaDevice=1
 persist.fuse_sdcard=true
 
 #System props for BT
-ro.bluetooth.library_name=libbluetooth_qti.so
+#ro.bluetooth.library_name=libbluetooth_qti.so
 persist.vendor.btstack.aac_frm_ctl.enabled=true
 
 #system prop for RmNet Data
