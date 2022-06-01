@@ -35,12 +35,32 @@ DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
     vendor/omni/overlay/CarrierConfig
 
+PRODUCT_PACKAGES += \
+    FrameworksResOverlay \
+    SettingsProviderOverlay \
+    SystemUIOverlay \
+    TetheringOverlay \
+    WifiOverlay
+
+
 # VNDK
 PRODUCT_TARGET_VNDK_VERSION := 30
+PRODUCT_EXTRA_VNDK_VERSIONS := 30
 
 # A/B
 ENABLE_VIRTUAL_AB := true
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
+
+AB_OTA_PARTITIONS += \
+    boot \
+    dtbo \
+    odm \
+    product \
+    system \
+    system_ext \
+    vbmeta \
+    vbmeta_system \
+    vendor
 
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
@@ -69,19 +89,6 @@ PRODUCT_PACKAGES += \
 # Api
 PRODUCT_SHIPPING_API_LEVEL := 30
 
-# Bluetooth
-PRODUCT_SOONG_NAMESPACES += vendor/qcom/opensource/commonsys/packages/apps/Bluetooth
-PRODUCT_SOONG_NAMESPACES += vendor/qcom/opensource/commonsys/system/bt/conf
-
-PRODUCT_PACKAGE_OVERLAYS += vendor/qcom/opensource/commonsys-intf/bluetooth/overlay/qva
-
-PRODUCT_PACKAGES += \
-    BluetoothExt \
-    libbluetooth_qti \
-    vendor.qti.hardware.bluetooth_dun-V1.0-java \
-    vendor.qti.hardware.capabilityconfigstore@1.0 \
-    vendor.qti.hardware.capabilityconfigstore-V1.0-java
-
 # Boot control
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.1-impl.recovery \
@@ -103,6 +110,8 @@ PRODUCT_PACKAGES += \
 # DeviceParts
 #PRODUCT_PACKAGES += \
 #    DeviceParts
+#    OmniDisplayManager
+
 
 # Display
 PRODUCT_PACKAGES += \
@@ -111,6 +120,10 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     libtinyalsa
+
+$(call inherit-product, vendor/qcom/opensource/commonsys-intf/display/config/display-product-system.mk)
+$(call inherit-product, vendor/qcom/opensource/commonsys/display/config/display-product-commonsys.mk)
+
 
 # fastbootd
 PRODUCT_PACKAGES += \
@@ -197,6 +210,10 @@ PRODUCT_PACKAGES += \
     qti_telephony_utils.xml \
     tcmiface
 
+# Telephony extension
+PRODUCT_PACKAGES += telephony-ext
+PRODUCT_BOOT_JARS += telephony-ext
+
 # Update engine
 PRODUCT_PACKAGES += \
     otapreopt_script \
@@ -229,6 +246,6 @@ PRODUCT_BOOT_JARS += \
 # Vintf
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/vintf/manifest/manifest.xml:$(TARGET_COPY_OUT_PRODUCT)/vendor_overlay/$(PRODUCT_TARGET_VNDK_VERSION)/etc/vintf/manifest/manifest.xml
+
 #		$(LOCAL_PATH)/vintf/manifest/android.hardware.wifi.hostapd.xml:$(TARGET_COPY_OUT_PRODUCT)/vendor_overlay/$(PRODUCT_TARGET_VNDK_VERSION)/etc/vintf/manifest/android.hardware.wifi.hostapd.xml
 
-include vendor/qcom/opensource/display-commonsys-intf/config/display-product-system.mk
